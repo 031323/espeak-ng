@@ -1,0 +1,5 @@
+phoneme I:
+  vwl starttype #i endtype #i
+  length 500
+  FMT(vowel/ii_3)
+endphoneme

@@ -483,6 +483,7 @@ dictionaries: \
 	espeak-ng-data/gu_dict \
 	espeak-ng-data/hak_dict \
 	espeak-ng-data/hi_dict \
+	espeak-ng-data/sa_dict \
 	espeak-ng-data/hr_dict \
 	espeak-ng-data/ht_dict \
 	espeak-ng-data/hu_dict \
@@ -639,6 +640,9 @@ espeak-ng-data/gu_dict: dictsource/gu_list dictsource/gu_rules dictsource/gu_ext
 
 hi: espeak-ng-data/hi_dict
 espeak-ng-data/hi_dict: dictsource/hi_list dictsource/hi_rules dictsource/hi_extra dictsource/hi_emoji
+
+sa: espeak-ng-data/hi_dict
+espeak-ng-data/sa_dict: dictsource/sa_list dictsource/sa_rules
 
 hr: espeak-ng-data/hr_dict
 espeak-ng-data/hr_dict: dictsource/hr_list dictsource/hr_rules dictsource/hr_extra dictsource/hr_emoji

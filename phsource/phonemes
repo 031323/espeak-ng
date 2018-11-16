@@ -1744,8 +1744,12 @@ include ph_dutch
 phonemetable hi_base base1
 include ph_hindi_base
 
+
 phonemetable hi hi_base
 include ph_hindi
+
+phonemetable sa hi_base
+include ph_sanskrit
 
 phonemetable bn hi_base
 include ph_bengali
