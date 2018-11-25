@@ -1,5 +1,34 @@
 phoneme W~
   vwl starttype #@ endtype #@
-  length 200
+  length 50
   FMT(vnasal/W_n)
 endphoneme
+
+phoneme I:
+  vwl lng starttype #i endtype #i
+  length 511
+  FMT(vowel/ii_3)
+endphoneme
+
+phoneme a:
+  vwl lng starttype #a endtype #a
+  length 511
+  FMT(vowel/aa_9)
+endphoneme
+
+phoneme M
+  vwl starttype #@ endtype #@
+  ipa mU+0329
+  lengthmod 4
+  length 170
+
+  IF thisPh(isWordStart) THEN
+    length 190
+  ENDIF
+  IF KlattSynth THEN
+    FMT(klatt/m-syl)
+  ENDIF
+  FMT(m/M)
+endphoneme
+
+
