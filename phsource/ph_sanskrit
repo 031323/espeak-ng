@@ -1,20 +1,120 @@
-phoneme W~
-  vwl starttype #@ endtype #@
-  length 50
-  FMT(vnasal/W_n)
+phoneme a
+  vwl lng starttype #a endtype #a
+  length 220
+  FMT(vowel/a#_3)
 endphoneme
 
-phoneme I:
+phoneme A
+  vwl lng starttype #a endtype #a
+  length 220
+  FMT(vowel/aa_9)
+endphoneme
+
+phoneme i
   vwl lng starttype #i endtype #i
-  length 511
+  length 220
   FMT(vowel/ii_3)
 endphoneme
 
-phoneme a:
-  vwl lng starttype #a endtype #a
-  length 511
-  FMT(vowel/aa_9)
+phoneme u
+  vwl lng starttype #u endtype #u
+  length 220
+  FMT(vowel/u)
 endphoneme
+
+//phoneme r   // syllabic r
+//  vwl  lng starttype #@  endtype #@
+//  ipa rU+0329
+//  unstressed
+//  length 220
+//  FMT(vowelr/r-voc)
+//endphoneme
+
+phoneme l   // syllabic l
+  vwl  lng starttype #@  endtype #@
+  ipa lU+0329
+  unstressed
+  length 200
+  FMT(vwl_hi/l-voc)
+endphoneme
+
+phoneme e
+  vwl lng starttype #e endtype #e
+  length 220
+  FMT(vowel/e)
+endphoneme
+
+phoneme o
+  vwl lng starttype #o endtype #o
+  length 220
+  FMT(vowel/o)
+endphoneme
+
+phoneme E
+  vwl lng starttype #e endtype #e
+  length 220
+  FMT(vowel/e_mid)
+endphoneme
+
+phoneme O
+  vwl lng starttype #o endtype #o
+  length 220
+  FMT(vowel/oo_4)
+endphoneme
+
+/////////////////////////////////////////
+phoneme a~
+  vwl lng starttype #a endtype #a
+  length 220
+  FMT(vnasal/a#_n)
+endphoneme
+
+phoneme A~
+  vwl lng starttype #a endtype #a
+  length 220
+  FMT(vnasal/aa_n)
+endphoneme
+
+phoneme i~
+  vwl lng starttype #i endtype #i
+  length 220
+  FMT(vnasal/ii_n)
+endphoneme
+
+phoneme u~
+  vwl lng starttype #u endtype #u
+  length 220
+  FMT(vnasal/u_n)
+endphoneme
+
+
+phoneme e~
+  vwl lng starttype #e endtype #e
+  length 220
+  FMT(vnasal/e_n)
+endphoneme
+
+phoneme o~
+  vwl lng starttype #o endtype #o
+  length 220
+  FMT(vnasal/o_n)
+endphoneme
+
+phoneme E~
+  vwl lng starttype #e endtype #e
+  length 220
+  FMT(vnasal/ee_n)
+endphoneme
+
+phoneme O~
+  vwl lng starttype #o endtype #o
+  length 220
+  FMT(vnasal/oo_n)
+endphoneme
+
+
+///////////////////////////////////////
+
 
 phoneme M
   vwl starttype #@ endtype #@
