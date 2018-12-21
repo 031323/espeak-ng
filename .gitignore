@@ -43,6 +43,7 @@ build/
 # emscripten output:
 a.out
 a.out.js
+*.wasm
 
 # autotools
 
