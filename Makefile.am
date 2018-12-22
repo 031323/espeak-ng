@@ -370,6 +370,7 @@ phsource/phonemes.stamp: \
 	phsource/ph_romanian \
 	phsource/ph_russian \
 	phsource/ph_russian_lv \
+	phsource/ph_sanskrit \
 	phsource/ph_s_gaelic \
 	phsource/ph_serbian \
 	phsource/ph_setswana \
@@ -641,7 +642,7 @@ espeak-ng-data/gu_dict: dictsource/gu_list dictsource/gu_rules dictsource/gu_ext
 hi: espeak-ng-data/hi_dict
 espeak-ng-data/hi_dict: dictsource/hi_list dictsource/hi_rules dictsource/hi_extra dictsource/hi_emoji
 
-sa: espeak-ng-data/hi_dict
+sa: espeak-ng-data/sa_dict
 espeak-ng-data/sa_dict: dictsource/sa_list dictsource/sa_rules
 
 hr: espeak-ng-data/hr_dict
