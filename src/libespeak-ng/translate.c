@@ -32,17 +32,16 @@
 #include <espeak-ng/speak_lib.h>
 #include <espeak-ng/encoding.h>
 
-#include "dictionary.h"
-#include "numbers.h"
-#include "phonemelist.h"
-#include "readclause.h"
-#include "synthdata.h"
-
-#include "speech.h"
-#include "phoneme.h"
-#include "voice.h"
-#include "synthesize.h"
 #include "translate.h"
+#include "dictionary.h"           // for TranslateRules, LookupDictList, Cha...
+#include "numbers.h"              // for SetSpellingStress, TranslateLetter
+#include "phoneme.h"              // for phonSWITCH, PHONEME_TAB, phonPAUSE_...
+#include "phonemelist.h"          // for MakePhonemeList
+#include "readclause.h"           // for towlower2, Eof, ReadClause, is_str_...
+#include "synthdata.h"            // for SelectPhonemeTable, LookupPhonemeTable
+#include "synthesize.h"           // for PHONEME_LIST2, N_PHONEME_LIST, PHON...
+#include "ucd/ucd.h"              // for ucd_toupper
+#include "voice.h"                // for voice, voice_t
 
 Translator *translator = NULL; // the main translator
 Translator *translator2 = NULL; // secondary translator for certain words
@@ -89,7 +88,6 @@ int n_ph_list2;
 PHONEME_LIST2 ph_list2[N_PHONEME_LIST]; // first stage of text->phonemes
 
 wchar_t option_punctlist[N_PUNCTLIST] = { 0 };
-char ctrl_embedded = '\001'; // to allow an alternative CTRL for embedded commands
 
 // these are overridden by defaults set in the "speak" file
 int option_linelength = 0;
@@ -447,6 +445,26 @@ char *strchr_w(const char *s, int c)
 	return strchr((char *)s, c); // (char *) is needed for Borland compiler
 }
 
+// append plural suffixes depending on preceding letter
+static void addPluralSuffixes(int flags, Translator *tr, char last_char, char *word_phonemes)
+{
+	char word_zz[4] = { 0, 'z', 'z', 0 };
+	char word_iz[4] = { 0, 'i', 'z', 0 };
+	char word_ss[4] = { 0, 's', 's', 0 };
+	if (flags & FLAG_HAS_PLURAL) {
+		// s or 's suffix, append [s], [z] or [Iz] depending on previous letter
+		if (last_char == 'f')
+			TranslateRules(tr, &word_ss[1], word_phonemes, N_WORD_PHONEMES,
+			NULL, 0, NULL);
+		else if ((last_char == 0) || (strchr_w("hsx", last_char) == NULL))
+			TranslateRules(tr, &word_zz[1], word_phonemes, N_WORD_PHONEMES,
+			NULL, 0, NULL);
+		else
+			TranslateRules(tr, &word_iz[1], word_phonemes, N_WORD_PHONEMES,
+			NULL, 0, NULL);
+	}
+}
+
 static char *SpeakIndividualLetters(Translator *tr, char *word, char *phonemes, int spell_word)
 {
 	int posn = 0;
@@ -493,7 +511,7 @@ static int CheckDottedAbbrev(char *word1)
 			if (word[nbytes+1] == '.') {
 				if (word[nbytes+2] == ' ')
 					ok = 1;
-				else if (word[nbytes+2] == '\'') {
+				else if (word[nbytes+2] == '\'' && word[nbytes+3] == 's') {
 					nbytes += 2; // delete the final dot (eg. u.s.a.'s)
 					ok = 2;
 				}
@@ -569,12 +587,6 @@ static int TranslateWord3(Translator *tr, char *word_start, WORD_TAB *wtab, char
 	int loopcount;
 	int add_suffix_phonemes = 0;
 	WORD_TAB wtab_null[8];
-
-	// translate these to get pronunciations of plural 's' suffix (different forms depending on
-	// the preceding letter
-	static char word_zz[4] = { 0, 'z', 'z', 0 };
-	static char word_iz[4] = { 0, 'i', 'z', 0 };
-	static char word_ss[4] = { 0, 's', 's', 0 };
 
 	if (wtab == NULL) {
 		memset(wtab_null, 0, sizeof(wtab_null));
@@ -738,6 +750,8 @@ static int TranslateWord3(Translator *tr, char *word_start, WORD_TAB *wtab, char
 		strcpy(word_phonemes, phonemes);
 		if (wflags & FLAG_TRANSLATOR2)
 			return 0;
+
+		addPluralSuffixes(wflags, tr, last_char, word_phonemes);
 		return dictionary_flags[0] & FLAG_SKIPWORDS; // for "b.c.d"
 	} else if (found == false) {
 		// word's pronunciation is not given in the dictionary list, although
@@ -1010,16 +1024,7 @@ static int TranslateWord3(Translator *tr, char *word_start, WORD_TAB *wtab, char
 		}
 	}
 
-	if (wflags & FLAG_HAS_PLURAL) {
-		// s or 's suffix, append [s], [z] or [Iz] depending on previous letter
-		if (last_char == 'f')
-			TranslateRules(tr, &word_ss[1], phonemes, N_WORD_PHONEMES, NULL, 0, NULL);
-		else if ((last_char == 0) || (strchr_w("hsx", last_char) == NULL))
-			TranslateRules(tr, &word_zz[1], phonemes, N_WORD_PHONEMES, NULL, 0, NULL);
-		else
-			TranslateRules(tr, &word_iz[1], phonemes, N_WORD_PHONEMES, NULL, 0, NULL);
-	}
-
+	addPluralSuffixes(wflags, tr, last_char, word_phonemes);
 	wflags |= emphasize_allcaps;
 
 	// determine stress pattern for this word
@@ -1153,6 +1158,7 @@ static int TranslateWord3(Translator *tr, char *word_start, WORD_TAB *wtab, char
 	memcpy(word_start, word_copy2, word_copy_length);
 	return dictionary_flags[0];
 }
+
 
 int TranslateWord(Translator *tr, char *word_start, WORD_TAB *wtab, char *word_out)
 {
@@ -1793,7 +1799,7 @@ static int EmbeddedCommand(unsigned int *source_index_out)
 static const char *FindReplacementChars(Translator *tr, const char **pfrom, unsigned int c, const char *next, int *ignore_next_n)
 {
 	const char *from = *pfrom;
-	while (*(unsigned int *)from != 0) {
+	while ( !is_str_totally_null(from, 4) ) {
 		unsigned int fc = 0; // from character
 		unsigned int nc = c; // next character
 		const char *match_next = next;
@@ -2155,7 +2161,7 @@ void TranslateClause(Translator *tr, int *tone_out, char **voice_change)
 			c = ' ';
 		}
 
-		if ((c == CTRL_EMBEDDED) || (c == ctrl_embedded)) {
+		if (c == CTRL_EMBEDDED) {
 			// start of embedded command in the text
 			int srcix = source_index-1;
 
@@ -2348,7 +2354,8 @@ void TranslateClause(Translator *tr, int *tone_out, char **voice_change)
 					}
 				} else {
 					if ((all_upper_case) && (letter_count > 2)) {
-						if ((c == 's') && (next_in == ' ')) {
+						// Flag as plural only English
+						if (tr->translator_name == L('e', 'n') && (c == 's') && (next_in == ' ')) {
 							c = ' ';
 							all_upper_case |= FLAG_HAS_PLURAL;
 
@@ -2399,7 +2406,7 @@ void TranslateClause(Translator *tr, int *tone_out, char **voice_change)
 						c = ' '; // remove the dot if it's followed by a space or hyphen, so that it's not pronounced
 				}
 			} else if (c == '\'') {
-				if (((prev_in == '.') || iswalnum(prev_in)) && IsAlpha(next_in)) {
+				if (((prev_in == '.' && next_in == 's') || iswalnum(prev_in)) && IsAlpha(next_in)) {
 					// between two letters, or in an abbreviation (eg. u.s.a.'s). Consider the apostrophe as part of the word
 					single_quoted = false;
 				} else if ((tr->langopts.param[LOPT_APOSTROPHE] & 1) && IsAlpha(next_in))

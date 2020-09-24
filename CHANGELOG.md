@@ -7,7 +7,39 @@
 
 The espeak-ng project is a fork of the espeak project.
 
-### 1.49.3 - (In Development)
+### 1.51 (In Development)
+
+updated languages:
+*  ba (Bashkir) -- boracasli98, Valdis Vitolins
+*  chr (Cherokee) -- Michael Conrad
+*  de (German) -- Karl Eick
+*  el (Modern Greek) -- Reece Dunn (support for variant Greek letter forms)
+*  en (English) -- Steven Presser, Ben Talagan
+*  grc (Ancient Greek) -- Reece Dunn (support for variant Greek letter forms)
+*  ia (Interlingua) -- nesrad
+*  it (Italian) -- Christian Leo
+*  ja (Japanese) -- fukuen
+*  shn (Shan Tay Yai) -- ronaldaug
+*  tr (Turkish) -- boracasli98
+*  ur (Urdu) -- Ejaz Shah
+*  uz (Uzbek) -- boracasli98, Valdis Vitolins
+*  zh (Chinese) -- Silas S. Brown, Rongcui Dong, Icenowy Zheng
+
+new languages:
+*  chr (Cherokee) -- Michael Conrad
+*  cu (Chuvash) -- boracasli98, Valdis Vitolins
+*  haw (Hawaiian) -- Valdis Vitolins
+*  he (Hebrew) -- boracasli98, Valdis Vitolins
+*  io (Ido) -- José Miguel López, Valdis Vitolins
+*  ltg (Latgalian) -- Valdis Vitolins
+*  nog (Nogai) -- boracasli98, Valdis Vitolins
+*  qu (Quechua) -- Valdis Vitolins
+*  th (Thai) -- Valdis Vitolins
+*  tk (Turkmen) -- boracasli98, Valdis Vitolins
+*  ug (Uyghur) -- boracasli98, Valdis Vitolins
+*  uk (Ukrainian) -- Valdis Vitolins
+
+### 1.50 - 2019-11-29
 
 *  Add a `--disable-rpath` option to prevent libtool hardcoding rpaths in the executable.
 *  Renamed the `hy-arevmda` language to `hyw`, following the 2018-03-30 change to the
@@ -45,27 +77,34 @@ emoji:
 
 new languages:
 
+*  ba (Bashkir) -- tc-dl, Valdis Vitolins
 *  hak (Hakka Chinese) -- Chen Chien-ting
 *  ht (Haitian Creole) -- Valdis Vitolins
 *  kk (Kazakh) -- boracasli14, Valdis Vitolins
+*  py (Pyash) -- Logan Streondj
 *  quc (K'iche') -- Valdis Vitolins
 *  ru-lv (Russian Latvia) -- Valdis Vitolins
 *  shn (Shan Tay Yai) -- ronaldaug
+*  uz (Uzbek) -- Valdis Vitolins
 
 updated languages:
 
 *  af (Afrikaans) -- Christo de Klerk
 *  ar (Arabic) -- Valdis Vitolins, Mark Readdie, Hesham Assabahi
+*  cmn (Chinese Mandarin) -- materia-cccp
 *  de (German) -- Reece Dunn, Karl Eick
 *  en (English) -- Reece Dunn
 *  fa (Farsi/Persian) -- Shadyar Khodayari
 *  fi (Finnish) -- Juho Hiltunen
 *  fr (French) -- Shallowmallow, Karl Eick, maiido, Reece Dunn
+*  ku (Kurdish) -- rojanu
 *  it (Italian) -- chrislm
 *  lv (Latvian) -- Valdis Vitolins
 *  my (Myanmar/Burmese) -- Min Maung
 *  ru (Russian) -- Valdis Vitolins, Reece Dunn
+*  sd (Sindhi) -- Ejaz Shah
 *  ur (Urdu) -- Ejaz Shah
+*  vi (Vietnamese) -- Anh Hoang Nguyen
 
 ### 1.49.2 - 2017-09-24
 

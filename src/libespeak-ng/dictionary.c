@@ -32,15 +32,14 @@
 #include <espeak-ng/encoding.h>
 
 #include "dictionary.h"
-#include "numbers.h"
-#include "readclause.h"
-#include "synthdata.h"
-
-#include "speech.h"
-#include "phoneme.h"
-#include "voice.h"
-#include "synthesize.h"
-#include "translate.h"
+#include "numbers.h"                       // for LookupAccentedLetter, Look...
+#include "phoneme.h"                       // for PHONEME_TAB, phVOWEL, phon...
+#include "readclause.h"                    // for WordToString2, is_str_tota...
+#include "speech.h"                        // for GetFileLength, path_home
+#include "compiledict.h"                   // for DecodeRule
+#include "synthdata.h"                     // for PhonemeCode, InterpretPhoneme
+#include "synthesize.h"                    // for STRESS_IS_PRIMARY, phoneme...
+#include "translate.h"                     // for Translator, utf8_in, LANGU...
 
 typedef struct {
 	int points;
@@ -142,7 +141,7 @@ static void InitGroups(Translator *tr)
 	// a RULE_GROUP_END.
 	if (*p != RULE_GROUP_END) while (*p != 0) {
 		if (*p != RULE_GROUP_START) {
-			fprintf(stderr, "Bad rules data in '%s_dict' at 0x%x (%c)\n", dictionary_name, (unsigned int)(p - tr->data_dictrules), p);
+			fprintf(stderr, "Bad rules data in '%s_dict' at 0x%x (%c)\n", dictionary_name, (unsigned int)(p - tr->data_dictrules), *p);
 			break;
 		}
 		p++;
@@ -150,8 +149,11 @@ static void InitGroups(Translator *tr)
 		if (p[0] == RULE_REPLACEMENTS) {
 			p = (char *)(((intptr_t)p+4) & ~3); // advance to next word boundary
 			tr->langopts.replace_chars = (unsigned char *)p;
-			while (*(unsigned int *)p != 0)
+
+			while ( !is_str_totally_null(p, 4) ) {
 				p++;
+			}
+
 			while (*p != RULE_GROUP_END) p++;
 			p++;
 			continue;
