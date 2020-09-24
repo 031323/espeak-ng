@@ -1,5 +1,5 @@
 AC_PREREQ([2.63])
-AC_INIT([eSpeak NG], [1.49.3-dev], [https://github.com/espeak-ng/espeak-ng/issues], [espeak-ng], [https://github.com/espeak-ng/espeak-ng])
+AC_INIT([eSpeak NG], [1.51-dev], [https://github.com/espeak-ng/espeak-ng/issues], [espeak-ng], [https://github.com/espeak-ng/espeak-ng])
 AM_INIT_AUTOMAKE()
 LT_INIT
 
@@ -256,6 +256,8 @@ dnl ================================================================
 AC_CHECK_PROG(RONN, ronn, ronn, no)
 
 AM_CONDITIONAL(HAVE_RONN, [test ! x"$RONN" = xno])
+
+AC_CHECK_PROG(KRAMDOWN, kramdown, kramdown, no)
 
 dnl ================================================================
 dnl Extended dictionary checks.
