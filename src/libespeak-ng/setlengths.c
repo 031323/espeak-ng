@@ -742,6 +742,7 @@ void CalcLengths(Translator *tr)
 				length_mod = 256; // syllabic consonant
 				min_drop = 16;
 			}
+			
 			p->length = length_mod;
 
 			if (p->env >= (N_ENVELOPE_DATA-1)) {
@@ -776,8 +777,9 @@ void CalcLengths(Translator *tr)
 					p->env = env2;
 				} else
 					prev->env = PITCHfall;
-
 				prev->length = length_mod;
+				//sa1
+				if(prev->type!=phVOWEL)prev->length = length_mod;
 
 				prev->amp = p->amp;
 				if ((prev->type != phLIQUID) && (prev->amp > 18))
@@ -813,5 +815,8 @@ void CalcLengths(Translator *tr)
 			pre_voiced = false;
 			break;
 		}
+		//sa1
+		//p->prepause=0;
+		//if(p->type==phVOWEL)p->length=(p->ph->phflags & phLONG?300:150);
 	}
 }

@@ -857,6 +857,7 @@ Translator *SelectTranslator(const char *name)
 		}
 		break;
 	case L('h', 'i'): // Hindi
+	case L('s', 'a'): // Sanskrit
 	case L('n', 'e'): // Nepali
 	case L('o', 'r'): // Oriya
 	case L('p', 'a'): // Punjabi

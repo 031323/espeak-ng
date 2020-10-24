@@ -1,114 +1,131 @@
+phoneme x //  Lengthen the previous vowel by "length"
+  virtual
+  length 100
+endphoneme
+
 phoneme a
-  vwl lng starttype #a endtype #a
-  length 220
+  vwl starttype #a endtype #a
+  length 183
   FMT(vowel/a#_3)
 endphoneme
 
 phoneme A
-  vwl lng starttype #a endtype #a
-  length 220
+  vwl starttype #a endtype #a
+  length 183
   FMT(vowel/aa_9)
 endphoneme
 
 phoneme i
-  vwl lng starttype #i endtype #i
-  length 220
-  FMT(vowel/ii_3)
+  vwl starttype #i endtype #i
+  length 183
+  FMT(vowel/i_5)
+endphoneme
+
+phoneme I
+  vwl starttype #i endtype #i
+  length 183
+  FMT(vowel/i_7)
 endphoneme
 
 phoneme u
-  vwl lng starttype #u endtype #u
-  length 220
+  vwl starttype #u endtype #u
+  length 183
   FMT(vowel/u)
 endphoneme
 
-//phoneme r   // syllabic r
-//  vwl  lng starttype #@  endtype #@
-//  ipa rU+0329
-//  unstressed
-//  length 220
-//  FMT(vowelr/r-voc)
-//endphoneme
+phoneme U
+  vwl starttype #u endtype #u
+  length 183
+  FMT(vowel/u)
+endphoneme
 
-phoneme l   // syllabic l
-  vwl  lng starttype #@  endtype #@
+phoneme z   // syllabic r
+  vwl starttype #i  endtype #i
+  ipa rU+0329
+  length 183
+  FMT(r/r)
+endphoneme
+
+phoneme w   // syllabic l
+  vwl starttype #i  endtype #i
   ipa lU+0329
   unstressed
   length 200
-  FMT(vwl_hi/l-voc)
+  FMT(l/l)
 endphoneme
 
 phoneme e
-  vwl lng starttype #e endtype #e
-  length 220
+  vwl starttype #e endtype #e
+  length 183
   FMT(vowel/e)
 endphoneme
 
 phoneme o
-  vwl lng starttype #o endtype #o
-  length 220
+  vwl starttype #o endtype #o
+  length 183
   FMT(vowel/o)
 endphoneme
 
+
 phoneme E
-  vwl lng starttype #e endtype #e
-  length 220
+  vwl starttype #e endtype #e
+  length 183
   FMT(vowel/e_mid)
 endphoneme
 
 phoneme O
-  vwl lng starttype #o endtype #o
-  length 220
+  vwl starttype #o endtype #o
+  length 183
   FMT(vowel/oo_4)
 endphoneme
 
 /////////////////////////////////////////
 phoneme a~
   vwl lng starttype #a endtype #a
-  length 220
+  length 183
   FMT(vnasal/a#_n)
 endphoneme
 
 phoneme A~
   vwl lng starttype #a endtype #a
-  length 220
+  length 183
   FMT(vnasal/aa_n)
 endphoneme
 
 phoneme i~
   vwl lng starttype #i endtype #i
-  length 220
+  length 183
   FMT(vnasal/ii_n)
 endphoneme
 
 phoneme u~
   vwl lng starttype #u endtype #u
-  length 220
+  length 183
   FMT(vnasal/u_n)
 endphoneme
 
 
 phoneme e~
   vwl lng starttype #e endtype #e
-  length 220
+  length 183
   FMT(vnasal/e_n)
 endphoneme
 
 phoneme o~
   vwl lng starttype #o endtype #o
-  length 220
+  length 183
   FMT(vnasal/o_n)
 endphoneme
 
 phoneme E~
   vwl lng starttype #e endtype #e
-  length 220
+  length 183
   FMT(vnasal/ee_n)
 endphoneme
 
 phoneme O~
   vwl lng starttype #o endtype #o
-  length 220
+  length 183
   FMT(vnasal/oo_n)
 endphoneme
 
@@ -131,4 +148,300 @@ phoneme M
   FMT(m/M)
 endphoneme
 
+phoneme m
+  vcd blb nas
+  Vowelout f1=2  f2=1000 -500 -350  f3=-200 80 brk
+  lengthmod 4
 
+  IF KlattSynth THEN
+    Vowelin  f1=0  f2=1000 -50 -200  f3=-200 80
+    IF nextPh(isPause2) THEN
+      FMT(klatt/m_)
+    ENDIF
+    FMT(klatt/m)
+  ENDIF
+
+  NextVowelStarts
+    VowelStart(m/m@)
+    VowelStart(m/ma)
+    VowelStart(m/me)
+    VowelStart(m/mi)
+    VowelStart(m/mo)
+    VowelStart(m/mu)
+  EndSwitch
+
+  IF prevPh(isNotVowel) AND nextPhW(isLiquid) THEN
+    FMT(m/mj)
+  ELIF prevPh(isPause) THEN
+    FMT(m/_m)
+  ELIF nextPh(isNotVowel) THEN
+    FMT(m/m_)
+  ELSE
+  	FMT(m/_m)
+  ENDIF
+endphoneme
+
+phoneme n
+  vcd dnt nas
+  Vowelout f1=2 f2=1500 -300 250  f3=-100 80  rms=20 brk
+  lengthmod 4
+
+  IF KlattSynth THEN
+    Vowelin f1=0 f2=1500 -200 200 f3=0 80
+    FMT(klatt/n)
+  ENDIF
+
+  NextVowelStarts
+    VowelStart(n/n@)
+    VowelStart(n/na)
+    VowelStart(n/ne)
+    VowelStart(n/ni)
+    VowelStart(n/no)
+    VowelStart(n/nu)
+  EndSwitch
+
+  IF prevPh(isNotVowel) AND nextPhW(isLiquid) THEN
+    FMT(n/nj)
+  ELIF prevPh(isPause) OR prevPh(n) THEN
+    FMT(n/_n)
+  ELIF nextPh(isNotVowel) THEN
+    FMT(n/n_)
+  ELSE
+  	FMT(n/_n)
+  ENDIF
+  
+endphoneme
+
+
+phoneme n.
+  vcd rfx nas
+  ipa ɳ
+  starttype n  endtype n
+  Vowelin f1=2 f2=1700 -300 300  f3=-500 80  rms=20 colr=2
+  Vowelout f1=2 f2=1700 -300 300  f3=-500 80  rms=20 brk colr=2
+  lengthmod 4
+
+  IF KlattSynth THEN
+    FMT(klatt/nr)
+  ENDIF
+
+  NextVowelStarts
+    VowelStart(n/nr@)
+    VowelStart(n/nra)
+    VowelStart(n/nre)
+    VowelStart(n/nri)
+    VowelStart(n/nro)
+    VowelStart(n/nru)
+  EndSwitch
+
+  IF prevPh(isNotVowel) AND nextPhW(isLiquid) THEN
+    FMT(n/nj)
+  ELIF prevPh(isPause) OR prevPh(n.) THEN
+    FMT(n/_nr)
+  ELIF nextPh(isNotVowel) THEN
+    FMT(n/nr_)
+  ELSE
+  	FMT(n/_nr)
+  ENDIF
+endphoneme
+
+
+phoneme n^ // Spanish **ñ**
+  vcd pal nas pzd
+  ipa ɲ
+  Vowelout f1=3 f2=2500 300 500  f3=100 80  len=45 brk rate
+  lengthmod 4
+
+  IF KlattSynth THEN
+    VowelStart(klatt/n^@)
+    FMT(klatt/n^)
+  ENDIF
+
+  NextVowelStarts
+    VowelStart(n^/n^@)
+    VowelStart(n^/n^a)
+    VowelStart(n^/n^e)
+    VowelStart(n^/n^i)
+    VowelStart(n^/n^o)
+    VowelStart(n^/n^u)
+  EndSwitch
+
+  IF prevPh(isPause) THEN
+    FMT(n^/_n^)
+  ELIF nextPh(isNotVowel) THEN
+    IF nextPhW(n^) THEN
+      length 75
+    ELIF prevPhW(n^) THEN
+      length 100
+    ENDIF
+    FMT(n^/n^_)
+  ENDIF
+endphoneme
+
+
+
+//////////////////////////////////////
+phoneme b#
+  vls blb stp prevoice
+  lengthmod 2
+  voicingswitch b
+  Vowelin  f1=0  f2=1000 -50 -100  f3=-200 80
+  Vowelout f1=0  f2=1000 -500 -350  f3=-300 80 rms=30
+  
+  IF PreVoicing THEN
+    IF prevPhW(isVowel) THEN
+      FMT(b/xb)
+    ELSE
+      FMT(voc/murmur1)
+    ENDIF
+  ENDIF
+
+  IF nextPh(isPause2) THEN
+    WAV(ustop/p_)
+  ENDIF
+  IF nextPh(l) THEN
+    WAV(ustop/pl)
+  ENDIF
+  WAV(ustop/p_asp)
+endphoneme
+
+
+phoneme d#
+  vls dnt stp prevoice
+  lengthmod 2
+  voicingswitch d
+  Vowelin f1=0  f2=1500 -300 300  f3=-100 80  amp=16
+  Vowelout f1=0 f2=1500 -300 250  f3=-100 80  rms=20
+
+  IF PreVoicing THEN
+    IF prevPhW(isVowel) THEN
+      FMT(d/xd)
+    ELSE
+      FMT(voc/murmur1)
+    ENDIF
+  ENDIF
+
+  IF nextPh(isPause2) THEN
+    WAV(ustop/t_dnt, 35)
+  ENDIF
+  WAV(ustop/t_dnt, 50)
+endphoneme
+
+
+phoneme t.#
+  vls rfx stp
+  lengthmod 2
+  ipa ʈU+02B0
+  voicingswitch d.#
+  Vowelin f1=0  f2=1800 -300 300  f3=-200 80
+  Vowelout f1=0 f2=1800 -300 250  f3=-400 80  rms=20 colr=2
+  
+  IF nextPhW(t.#) THEN
+    ChangePhoneme(t.)
+  ENDIF
+  WAV(ustop/th_rfx2, 80)
+endphoneme
+
+
+phoneme d.#
+  vls rfx stp prevoice
+  lengthmod 2
+  ipa ʈU+02B0
+  Vowelin f1=0  f2=1800 -300 300  f3=-200 80
+  Vowelout f1=0 f2=1800 -300 250  f3=-400 80  rms=20 colr=2
+
+  IF PreVoicing THEN
+    IF prevPhW(isVowel) THEN
+      FMT(d/xdr)
+    ELSE
+      FMT(voc/murmur1)
+    ENDIF
+  ENDIF
+
+  voicingswitch d.#
+  WAV(ustop/th_rfx2, 80)
+endphoneme
+
+
+phoneme J#
+  vls pal afr sib pzd prevoice
+  voicingswitch c#
+  lengthmod 2
+  Vowelin f1=0  f2=2700 400 600  f3=300 80 rate len=70
+
+  IF PreVoicing THEN
+    IF prevPhW(isVowel) THEN
+      FMT(dzh/xdz_pzd)
+    ELSE
+      FMT(voc/murmur1)
+    ENDIF
+  ENDIF
+
+  IF nextPh(isPause2) THEN
+    WAV(ustop/ts_pzd)
+  ENDIF
+  WAV(ustop/ts_pzd)
+endphoneme
+
+
+phoneme g#
+  vls vel stp prevoice
+  lengthmod 2
+  Vowelin f1=1  f2=1400 -100 100  f3=-150 80
+  Vowelout f1=0 f2=2300 300 400  f3=-150 80  rms=20
+
+  IF PreVoicing THEN
+    IF prevPhW(isVowel) THEN
+      FMT(g/xg)
+    ELSE
+      FMT(voc/murmur1)
+    ENDIF
+  ENDIF
+
+  
+  IF nextPh(isPause2) THEN
+    WAV(ustop/k_asp, 40)
+  ENDIF
+  IF nextPhW(#e) OR nextPhW(#i) THEN
+    WAV(ustop/k_asp_e, 40)
+  ELIF nextPhW(#o) OR nextPhW(#u) THEN
+    WAV(ustop/k_asp_a, 25)
+  ELSE
+    WAV(ustop/k_asp_a, 30)
+  ENDIF
+endphoneme
+//////////////////////////////////////
+
+
+//////////////////////////////////////
+phoneme 5
+	stress
+	Tone(50, 50, envelope/p_level, NULL)
+endphoneme
+
+phoneme 4
+	stress
+	Tone(50, 10, envelope/p_fall, NULL)
+endphoneme
+
+phoneme 3
+	stress
+	Tone(10, 10, envelope/p_level, NULL)
+endphoneme
+phoneme 2
+	stress
+	length 500
+	Tone(50, 50, envelope/p_level, NULL)
+endphoneme
+
+phoneme 1
+	stress
+	length 500
+	Tone(50, 10, envelope/p_fall, NULL)
+endphoneme
+
+phoneme 0
+	stress
+	length 500
+	Tone(10, 10, envelope/p_level, NULL)
+endphoneme
