@@ -627,6 +627,16 @@ endphoneme
 // retroflex plosives
 //===================
 
+phoneme t.
+  vls rfx stp
+  lengthmod 2
+  ipa ʈ
+  voicingswitch d.
+  Vowelin f1=0  f2=1800 -300 300  f3=-400 80
+  Vowelout f1=0 f2=1800 -300 250  f3=-400 80  rms=20 colr=2
+  WAV(ustop/t_hard)
+endphoneme
+
 
 phoneme d.
   vcd rfx stp prevoice
@@ -644,7 +654,11 @@ phoneme d.
     FMT(d/d_) addWav(x/d_)
   ENDIF
 
-  FMT(d/dr) addWav(x/d)
+  //IF nextPh(d.) OR nextPh(d.#) THEN
+  //	FMT(d/xdr)
+  //ELSE
+ 		FMT(d/dr) addWav(ustop/t_hard)
+  //ENDIF
 endphoneme
 
 
