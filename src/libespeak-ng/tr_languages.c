@@ -876,6 +876,9 @@ Translator *SelectTranslator(const char *name)
 		tr->langopts.numbers = NUM_SWAP_TENS;
 		tr->langopts.break_numbers = BREAK_LAKH_HI;
 		tr->letter_bits_offset = OFFSET_DEVANAGARI;
+		
+		if(name2 == L('s','a'))
+			tr->langopts.tone_language = 1;
 
 		if (name2 == L('p', 'a'))
 			tr->letter_bits_offset = OFFSET_GURMUKHI;
