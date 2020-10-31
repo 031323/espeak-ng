@@ -118,6 +118,15 @@ public:
 private:
   espeak_VOICE* current_voice;
 };
-
+extern "C"
+{
+	int main()
+	{
+		EM_ASM(
+			vm='12';
+			if(typeof cb2==="function")cb2();
+		);
+	}
+}
 #include <glue.cpp>
 

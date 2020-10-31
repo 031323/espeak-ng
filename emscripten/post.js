@@ -88,7 +88,7 @@ eSpeakNGWorker.prototype.synthesize = function (aText, aCallback) {
     return aCallback(data, events) ? 1 : 0;
   }
 
-  var fp = addFunction(cb);
+  var fp = addFunction(cb,'iiii');
   this.synth_(aText, fp);
   removeFunction(fp);
 };
@@ -116,19 +116,26 @@ eSpeakNGWorker.prototype.synthesize_ipa = function (aText, aCallback) {
 };
 
 // Make this a worker
-
 if (typeof WorkerGlobalScope !== 'undefined') {
   var worker;
   
   Module.postRun = Module.postRun || [];
 
   Module.postRun.push(function () {
-    worker = new eSpeakNGWorker();
-    postMessage('ready');
+  	cb2=function(){
+    	worker = new eSpeakNGWorker();
+    	postMessage('ready');
+    }
+    console.log('vm=')
+    console.log(vm)
+    if(vm==="12")
+    {
+    	console.log('cb2')
+    	cb2();
+    }
   });
 
   onmessage = function(e) {
-    
     if (!worker) {
       throw 'eSpeakNGWorker worker not initialized';
     }
