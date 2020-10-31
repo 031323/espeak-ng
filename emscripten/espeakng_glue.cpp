@@ -27,7 +27,7 @@ public:
   eSpeakNGWorker() : rate(espeakRATE_NORMAL), pitch(50), current_voice(NULL) {
     if (!gSamplerate) {
       gSamplerate = espeak_Initialize(
-        AUDIO_OUTPUT_SYNCHRONOUS, 100, NULL, espeakINITIALIZE_DONT_EXIT);
+        AUDIO_OUTPUT_SYNCHRONOUS, 100, NULL, espeakINITIALIZE_DONT_EXIT|espeakINITIALIZE_PHONEME_EVENTS);
     }
     samplerate = gSamplerate;
     voices = espeak_ListVoices(NULL);
@@ -44,7 +44,7 @@ public:
     else
       espeak_SetVoiceByName("default");
 
-    espeak_Synth(aText, 0, 0, POS_CHARACTER, 0, espeakPHONEMES, NULL, NULL);
+    espeak_Synth(aText, 0, 0, POS_CHARACTER, 0, espeakPHONEMES|espeakSSML, NULL, NULL);
 
     // Reset callback so other instances will work too.
     espeak_SetSynthCallback(NULL);
