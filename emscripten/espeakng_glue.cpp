@@ -44,7 +44,7 @@ public:
     else
       espeak_SetVoiceByName("default");
 
-    espeak_Synth(aText, 0, 0, POS_CHARACTER, 0, 0, NULL, NULL);
+    espeak_Synth(aText, 0, 0, POS_CHARACTER, 0, espeakPHONEMES, NULL, NULL);
 
     // Reset callback so other instances will work too.
     espeak_SetSynthCallback(NULL);
