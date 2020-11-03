@@ -100,7 +100,7 @@ CXXFLAGS+=-I ./ -I ../ -I ../src/include/espeak-ng
 #CXXFLAGS+=-s USE_PTHREADS=1
 
 # NOTE: extra flags for emscripten
-EM_CXXFLAGS=-s RESERVED_FUNCTION_POINTERS=2 --memory-init-file 0 -s FORCE_FILESYSTEM=1 -s WASM=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s ALLOW_TABLE_GROWTH=1
+EM_CXXFLAGS=-s RESERVED_FUNCTION_POINTERS=2 --memory-init-file 0 -s FORCE_FILESYSTEM=1 -s WASM=1 -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s ALLOW_TABLE_GROWTH=1 -s LZ4=1
 
 
 
@@ -114,7 +114,8 @@ $(EM_WORKER_DATA):
 	$(EM_FILE_PACKAGER) $@ \
 		--js-output=$(EM_ESPEAKNG_DATA_PACKAGE_JS) \
 		--preload $(EM_DATA_DIR)@$(EM_VIRTUAL_PATH_ESPEAKNG_DATA) \
-		$(patsubst %,--exclude %,$(EM_EXCLUDE_DATA))
+		$(patsubst %,--exclude %,$(EM_EXCLUDE_DATA)) \
+		--lz4
 
 $(EM_ESPEAKNG_DATA_PACKAGE_JS): $(EM_WORKER_DATA)
 
